@@ -21,7 +21,6 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y \
             python3-pip \
-            build-interactive \
             git \
             ffmpeg \
             libsdl2-dev \
@@ -31,20 +30,22 @@ jobs:
             libswscale-dev \
             libavformat-dev \
             libavcodec-dev \
-            zlib1g-dev
+            zlib1g-dev \
+            libffi-dev \
+            libssl-dev
 
     - name: Install Buildozer and Cython
       run: |
         pip install --upgrade pip
         pip install cython==0.29.33
-        pip install buildozer
+        pip install --upgrade buildozer
 
     - name: Build APK with Buildozer
       run: |
         buildozer -v android debug
 
     - name: Upload APK Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: package-apk
         path: bin/*.apk
